@@ -49,7 +49,7 @@ def mergeKLists(lists):
 
 class SolutionNeet:
     def mergeKLists(self, lists):
-        if not lists or len(lists) == 0:
+        if not lists:
             return None
 
         while len(lists) > 1:
@@ -81,3 +81,29 @@ class SolutionNeet:
     
 sol = SolutionNeet()
 print(sol.mergeKLists(lists))
+
+class Solution(object):
+    def mergeKLists(self, lists):
+        """
+        :type lists: List[ListNode]
+        :rtype: ListNode
+        """
+        heap = []
+        tieBraker = 0
+        for lst in lists:
+            cur = lst
+            while cur:
+                heap.append([cur.val, tieBraker, cur])
+                tieBraker += 1
+                cur = cur.next
+        heapq.heapify(heap)
+
+        dummy = ListNode()
+        cur = dummy
+
+        while heap:
+            value, tieBraker, node = heapq.heappop(heap)
+            cur.next = node
+            cur = cur.next
+            
+        return dummy.next 

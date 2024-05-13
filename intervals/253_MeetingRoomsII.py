@@ -1,4 +1,5 @@
 #Meeting Rooms II
+import heapq
 class Interval(object):
     def __init__(self, start, end):
         self.start = start
@@ -6,7 +7,7 @@ class Interval(object):
 
 
 
-def minMeetingRooms(intervals):
+def minMeetingRoomsOld(intervals):
     if len(intervals) == 0:
         return 0
     intervals.sort(key= lambda i: i[0])
@@ -20,7 +21,9 @@ def minMeetingRooms(intervals):
     
     return rooms
 
-def minMeetingRooms2(intervals):
+
+
+def minMeetingRooms2Old(intervals):
     if len(intervals) == 0:
         return 0
     intervals.sort(key= lambda interval: interval.start)
@@ -33,6 +36,13 @@ def minMeetingRooms2(intervals):
         first_availability = min(intervals[i].end, first_availability)
     
     return rooms
+
+def tupleToIntervals(intervals):
+    res = []
+    for i in range(len(intervals)):
+        interval = Interval(intervals[i][0], intervals[i][1])
+        res.append(interval)
+    return res
 
 def minMeetingRoomsNeet(intervals):
     start = sorted([i.start for i in intervals])
@@ -51,13 +61,14 @@ def minMeetingRoomsNeet(intervals):
         res = max(res, count)
     return res
 
-
-def tupleToIntervals(intervals):
-    res = []
-    for i in range(len(intervals)):
-        interval = Interval(intervals[i][0], intervals[i][1])
-        res.append(interval)
-    return res
+def minMeetingRooms(intervals): #Prefered
+    intervals.sort()
+    minHeap = [0]
+    for start, end in intervals:
+        if start >= minHeap[0]: 
+            heapq.heappop(minHeap)
+        heapq.heappush(minHeap, end)
+    return len(minHeap)
 
 
 
@@ -68,17 +79,17 @@ test_cases = [
     [(0, 5), (5, 10), (10, 15)],
     [(0, 10), (1, 5), (2, 7), (3, 8)],
     [(0, 5)],
-    [],
     [(0, 5), (3, 10), (8, 15)],
     [(0, 5), (2, 7), (4, 9), (8, 12), (10, 15)],
     [(0, 5), (1, 6), (2, 7), (3, 8), (4, 9)],
     [(0, 10), (5, 15), (10, 20), (15, 25)],
-    [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5)]
+    [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5)],
+    [(0, 2), (0, 4), (2, 6), (3, 7)]
 ]
 
 for case in test_cases:
     intervals = tupleToIntervals(case)
-    print(minMeetingRooms(case), minMeetingRooms2(intervals), minMeetingRoomsNeet(intervals))
+    print(minMeetingRooms(case), minMeetingRoomsNeet(intervals))
 
 
 

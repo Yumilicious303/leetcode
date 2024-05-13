@@ -1,0 +1,65 @@
+from heapq import heapify, heapreplace
+import heapq
+import random
+def maxAnnoyance(helpNeeded, coworkers):
+    res = max(worker[0] for worker in coworkers)
+    heap = [[initial + increase, increase] for initial, increase in coworkers]
+    heapq.heapify(heap)
+    for i in range(helpNeeded):
+        new_annoyance, increase = heapq.heappop(heap)
+        res = max(res, new_annoyance)
+        heapq.heappush(heap, [new_annoyance + increase, increase])
+    return res
+
+def maxAnnoyanceGit(helpNeeded, coworkers):
+    #helpNeeded, n_workers = map(int, input().split())
+    #coworkers = [list(map(int, input().split())) for _ in range(len(coworkers))]
+
+    predicted = list(map(lambda idx, x: [x[0] + x[1], idx], range(len(coworkers)), coworkers))
+    heapify(predicted)
+
+    for _ in range(helpNeeded):
+        idx = predicted[0][1]
+        incr = coworkers[idx][1]
+
+        coworkers[idx][0] += incr
+
+        heapreplace(predicted, [predicted[0][0] + incr, idx])
+
+    return max(coworkers)[0]
+
+def generate_random_data():
+    # Generate a random integer h between 1 and 100000
+    h = random.randint(1, 100)
+    
+    # Generate a random array of coworkers
+    num_coworkers = random.randint(1, 100)
+    coworkers = []
+    for _ in range(num_coworkers):
+        # Each coworker is represented by an array of two integers between 1 and 1 billion
+        coworker = [random.randint(1, 100), random.randint(1, 100)]
+        coworkers.append(coworker)
+    
+    return h, coworkers
+
+#print(maxAnnoyance(4, [[85, 67], [89, 97], [26, 10]])) #my answer: 85, his 89
+
+
+helpNeeded1, coworkers1 = 4, [[1, 2], [2, 3], [3, 4], [4, 5]]
+helpNeeded2, coworkers2 = 3, [[1, 1000], [1000, 1]]
+helpNeeded3, coworkers3 = 5, [[1, 1], [2, 2]]
+
+
+helpNeeded, coworkers = generate_random_data()
+print(f'helpNeeded: {helpNeeded}')
+print(f'coworkers: {coworkers}')
+mine = maxAnnoyance(helpNeeded, coworkers)
+print(f'My answer: {mine}')
+his = maxAnnoyanceGit(helpNeeded, coworkers)
+print(f'His answer: {his}')
+
+if mine == his:
+    print('True')
+else:
+    print('False')
+

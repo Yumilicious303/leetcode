@@ -80,6 +80,39 @@ def numIslands3(grid):
     return islands
 
 
+def numIslandsIterative(grid):
+    islands = 0
+
+    def dfs(r,c):
+        stack = [(r,c)]
+        while stack:
+            r, c = stack.pop()
+            if grid[r][c] != '1':
+                continue
+            grid[r][c] = '2'
+            
+            #up
+            if r > 0:
+                stack.append((r - 1, c))
+            #down
+            if r < len(grid) - 1:
+                stack.append((r + 1, c))
+            #left
+            if c > 0:
+                stack.append((r, c - 1))
+            #right
+            if c < len(grid[0]) - 1:
+                stack.append((r, c + 1))
+
+    for r in range(len(grid)):
+        for c in range(len(grid[0])):
+            if grid[r][c] == '1':
+                islands = islands + 1
+                dfs(r,c)
+                 
+    return islands
+
+
 
         
 

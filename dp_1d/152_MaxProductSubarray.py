@@ -36,11 +36,11 @@ def maxProduct2(nums):
 
 
 print(maxProduct2([2,3,-2,4]))
-print(maxProduct2([-2, 0, -1]))
-print(maxProduct2([1]))
-print(maxProduct2([0, 2]))
-print(maxProduct2([-1, -2, -3, 0, 3, 5]))
-print(maxProduct2([-1,4,-4,5,-2,-1,-1,-2,-3]))
+#print(maxProduct2([-2, 0, -1]))
+#print(maxProduct2([1]))
+#print(maxProduct2([0, 2]))
+#print(maxProduct2([-1, -2, -3, 0, 3, 5]))
+#print(maxProduct2([-1,4,-4,5,-2,-1,-1,-2,-3]))
 
 
 

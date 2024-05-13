@@ -29,15 +29,10 @@ def isValidNeet(s):
         ')': '('
     }
     stack = []
-    for c in s:
-        if c in closeToOpen:
-            if stack and stack[-1] == closeToOpen[c]:
-                stack.pop()
-            else:
-                return False
-        else:
-            stack.append(c)
-    if stack:
-        return False
-    else:
-        return True
+    for char in s:
+        if char in closeToOpen:
+            if stack and stack[-1] == closeToOpen[char]: stack.pop()
+            else: return False
+        else: stack.append(char)
+            
+    return True if stack else False

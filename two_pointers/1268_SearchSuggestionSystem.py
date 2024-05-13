@@ -8,7 +8,7 @@ class TrieNode:
     def __repr__(self) -> str:
         return f'({self.start}, {self.end})'
 
-def suggestedProducts(products, searchWord):
+def suggestedProductsTrie(products, searchWord):
     #create Trie
     root = TrieNode()
     products.sort()
@@ -38,25 +38,7 @@ def suggestedProducts(products, searchWord):
         cur = cur.next[c]
     return res
 
-def suggestedProducts2(products, searchWord): #Prefered solution
-    products.sort()
-    res = []
-    l, r = 0, len(products) - 1
-    for i, c in enumerate(searchWord):
-        while l <= r and (len(products[l]) <= i or c != products[l][i]):
-            l += 1
-        while l <= r and (len(products[r]) <= i or c != products[r][i]):
-            r -= 1
-
-        cur = []
-        for j in range(l, r + 1):
-            if len(cur) == 3: break
-            cur.append(products[j])
-        res.append(cur)
-    return res
-
-
-def suggestedProducts2(products, searchWord):
+def suggestedProductsNeet(products, searchWord):
     products.sort()
     res = []
     l, r = 0, len(products) - 1
@@ -74,6 +56,26 @@ def suggestedProducts2(products, searchWord):
         for j in range(min(3, remain)):
             res[-1].append(products[l + j])
     return res
+
+def suggestedProducts(products, searchWord): #Prefered solution
+    products.sort()
+    res = []
+    l, r = 0, len(products) - 1
+    for i, c in enumerate(searchWord):
+        while l <= r and (i >= len(products[l]) or c != products[l][i]):
+            l += 1
+        while l <= r and (i >= len(products[r]) or c != products[r][i]):
+            r -= 1
+
+        cur = []
+        for j in range(l, r + 1):
+            if len(cur) == 3: break
+            cur.append(products[j])
+        res.append(cur)
+    return res
+
+
+
 
 
 print(suggestedProducts2(["mobile","mouse","moneypot","monitor","mousepad", 'money'], 'mouse'))

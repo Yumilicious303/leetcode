@@ -1,0 +1,44 @@
+import sys
+import heapq
+
+intervals = []
+
+#getting the input and putting it into array form
+for line in sys.stdin:
+    input = line.split()
+    x, y = input
+    x, y = int(x), int(y)
+    intervals.append([x, y])
+
+#extracting info from the first line, since it represents n and k rather than x and y
+total_kittens, total_beds = intervals[0]
+#getting rid of the first element. Doing it this way means it's an O(1) operation
+intervals[0] = intervals[-1]
+intervals.pop()
+
+#We need to sort the array in ascending order based on arrival time. O(nlogn) operation.
+intervals.sort()
+#Create a min heap that we will use to keep track of bed availability
+heap = [0] * total_beds
+res = 0
+lastDeparture = 0
+
+for arrival, departure in intervals:
+    earliest_availability = heap[0]
+    #if the arrival for current kitten is larger than our earliest availability, we know we can book this reservation
+    if arrival >= earliest_availability:
+        heapq.heappop(heap)
+        #O(logn)
+        heapq.heappush(heap, departure)
+        res += 1
+        lastDeparture = max(departure, lastDeparture)
+    else:
+        #if our kitten's proposed departure is before our currently scheduled last departure, we prefer this kitten and will replace the currently scheduled one
+        if departure < lastDeparture:
+            #O(n)
+            heap[heap.index(lastDeparture)] = departure
+            #O(n)
+            heapq.heapify(heap)
+            #O(n)
+            lastDeparture = max(heap)
+print(res)

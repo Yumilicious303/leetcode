@@ -1,5 +1,5 @@
 #Longest Substring Without Repeating Characters
-def lengthOfLongestSubstring(s):
+def lengthOfLongestSubstring1(s):
     windowSet = set()
     res = 0
     l = 0
@@ -12,6 +12,17 @@ def lengthOfLongestSubstring(s):
                 windowSet.remove(s[l])
                 l += 1
             l += 1
+    return res
+
+def lengthOfLongestSubstring(s):
+    windowSet = set()
+    l, res = 0, 0
+    for r in range(len(s)):
+        while s[r] in windowSet:
+            windowSet.remove(s[l])
+            l += 1
+        windowSet.add(s[r])
+        res = max(res, len(windowSet))
     return res
 
 print(lengthOfLongestSubstring("abcabcbb"))

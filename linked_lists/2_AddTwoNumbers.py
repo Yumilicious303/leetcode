@@ -54,3 +54,27 @@ def addTwoNumbersNeet(l1, l2):
         l2 = l2.next if l2 else None
 
     return dummy.next
+
+def addTwoNumbers2(l1, l2):
+    dummy = ListNode()
+    cur = dummy
+    carry = 0
+    while l1 or l2 or carry:
+        val1 = l1.val if l1 else 0
+        val2 = l2.val if l2 else 0
+        value = (carry + val1 + val2) % 10
+        carry = (carry + val1 + val2) // 10
+        node = ListNode(value)
+        cur.next = node
+        cur = cur.next
+        if l1: l1 = l1.next
+        if l2: l2 = l2.next
+    return dummy.next
+
+
+node3 = ListNode(3)
+node7 = ListNode(7, node3)
+node0 = ListNode(0)
+
+print(addTwoNumbers2(node0, node7))
+

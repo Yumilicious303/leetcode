@@ -1,5 +1,5 @@
-#LRU Cache
-class Node:
+#LRU (Least Recently Used) Cache
+class First_Try_Node:
     def __init__(self, key, value):
         self.key = key
         self.value = value
@@ -7,7 +7,7 @@ class Node:
         self.right = None
 
 
-class LRUCache(object):
+class First_Try_LRUCache(object):
     def __init__(self, capacity):
         """
         :type capacity: int
@@ -112,7 +112,7 @@ class LRUCacheNeet:
     def put(self, key: int, value: int) -> None:
         if key in self.cache:
             self.remove(self.cache[key])
-        self.cache[key] = Node(key, value)
+        self.cache[key] = NodeNeet(key, value)
         self.insert(self.cache[key])
 
         if len(self.cache) > self.cap:
@@ -120,6 +120,53 @@ class LRUCacheNeet:
             lru = self.left.next
             self.remove(lru)
             del self.cache[lru.key]
+
+class Node:
+    def __init__(self, key=0, value=0):
+        self.key, self.value = key, value
+        self.left = self.right = None
+
+
+class LRUCache:
+    def __init__(self, capacity: int):
+        self.capacity = capacity
+        self.cache = {}  # map key to node
+
+        self.leftDummy, self.rightDummy = Node(), Node()
+        self.rightDummy.left, self.leftDummy.right = self.leftDummy, self.rightDummy
+
+    def get(self, key: int) -> int:
+        if key in self.cache:
+            self.remove(self.cache[key])
+            self.insert(self.cache[key])
+            return self.cache[key].value
+        return -1
+
+    def put(self, key: int, value: int) -> None:
+        if key in self.cache:
+            self.remove(self.cache[key])
+            self.insert(self.cache[key])
+            self.cache[key].value = value
+        else:
+            newNode = Node(key, value)
+            if len(self.cache) == self.capacity:
+                leastRecentNode = self.leftDummy.right
+                self.remove(leastRecentNode)
+                del self.cache[leastRecentNode.key]
+            self.cache[key] = newNode
+            self.insert(newNode)
+
+    # remove node from list
+    def remove(self, node):
+        leftNode, rightNode = node.left, node.right
+        leftNode.right, rightNode.left = rightNode, leftNode
+
+    # insert node at right
+    def insert(self, node):
+        leftNode = self.rightDummy.left
+        leftNode.right = self.rightDummy.left = node
+        node.left, node.right = leftNode, self.rightDummy
+
 
 
 def case1():
@@ -143,5 +190,17 @@ def case14():
     print(lruc.get(1))
     print(lruc.get(2))
 
+def case15():
+    lruc = LRUCache(2)
+    print(lruc.get(2))
+    lruc.put(2, 6)
+    lruc.get(1)
+    lruc.put(1, 5)
+    lruc.put(1, 2)
+    print(lruc.get(1))
+    print(lruc.get(2))
+
+
 #case1()
-case14()
+#case14()
+case15()

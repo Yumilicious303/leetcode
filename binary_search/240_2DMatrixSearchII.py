@@ -1,4 +1,8 @@
 #2D Matrix Search II
+
+#Integers in each row are sorted in ascending from left to right.
+#Integers in each column are sorted in ascending from top to bottom.
+
 def searchMatrix(matrix, target):
     ROWS, COLS = len(matrix), len(matrix[0])
     row, col = ROWS - 1, 0

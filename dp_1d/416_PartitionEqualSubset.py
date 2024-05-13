@@ -14,7 +14,7 @@ def canPartition(nums):
         memo[(curSum, i)] = False
         return False
     
-    if sum(nums) % 2 != 0:
+    if sum(nums) % 2:
         return False
     
     target = sum(nums) / 2

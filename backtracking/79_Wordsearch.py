@@ -1,5 +1,5 @@
 #Word Search
-def exist(board, word):
+def existNeet(board, word):
     ROWS, COLS = len(board), len(board[0])
     path = set()
 
@@ -29,7 +29,31 @@ def exist(board, word):
     return False
 
 
-                
+def exist(board, word):
+    rows, cols = len(board), len(board[0])
+    def dfs(r, c, i):
+        if (r,c) in visited or board[r][c] != word[i]:
+            return False
+        if i == len(word) - 1:
+            return True
+        
+        
+        visited.add((r,c))
+        if r + 1 < rows: 
+            if dfs(r + 1, c, i + 1): return True
+        if r - 1 >= 0: 
+            if dfs(r - 1, c, i + 1): return True
+        if c + 1 < cols: 
+            if dfs(r, c + 1, i + 1): return True
+        if c - 1 >= 0: 
+            if dfs(r, c - 1, i + 1): return True
+        visited.remove((r,c))
+
+    for r in range(rows):
+        for c in range(cols):
+            visited = set()
+            if dfs(r, c, 0): return True
+    return False                
 
 
 

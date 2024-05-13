@@ -4,6 +4,9 @@ class TreeNode(object):
         self.val = val
         self.left = left
         self.right = right
+    
+    def __repr__(self):
+        return str(self.val)
 class Solution(object):
     def kthSmallest(self, root, k):
         order = []
@@ -29,6 +32,7 @@ class SolutionNeet(object):
             while curr:
                 stack.append(curr)
                 curr = curr.left
+
             curr = stack.pop()
             n += 1
             if n == k:
@@ -36,8 +40,22 @@ class SolutionNeet(object):
             curr = curr.right
 
 
+def testCase1():
+    node2 = TreeNode(2)
+    node1 = TreeNode(1, None, node2)
+    node4 = TreeNode(4)
+    node3 = TreeNode(3, node1, node4)
+    sol = SolutionNeet()
+    print(sol.kthSmallest(node3, 1))
 
-node2 = TreeNode(0)
-node1 = TreeNode(1, node2)
-node4 = TreeNode(4)
-node3 = TreeNode(3, node1, node4)
+def testCase2():
+    node1 = TreeNode(1)
+    node2 = TreeNode(2, node1)
+    node4 = TreeNode(4)
+    node3 = TreeNode(3, node2, node4)
+    node6 = TreeNode(6)
+    node5 = TreeNode(5, node3, node6)
+    sol = SolutionNeet()
+    print(sol.kthSmallest(node5, 4))
+
+testCase2()

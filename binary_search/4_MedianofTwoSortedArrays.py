@@ -1,5 +1,31 @@
 #Median of Two Sorted Arrays
 def findMedianSortedArrays(nums1, nums2):
+    short, long = nums1, nums2
+    total = len(nums1) + len(nums2)
+    half = total // 2
+    if len(long) < len(short):
+        short, long = long, short
+    l, r = 0, len(short) - 1
+    while True:
+        i = (l + r) // 2  # short
+        j = half - i - 2  # long
+        shortLeft = short[i] if i >= 0 else float("-infinity")
+        shortRight = short[i + 1] if (i + 1) < len(short) else float("infinity")
+        longLeft = long[j] if j >= 0 else float("-infinity")
+        longRight = long[j + 1] if (j + 1) < len(long) else float("infinity")
+        # partition is correct
+        if shortLeft <= longRight and longLeft <= shortRight:
+            # odd
+            if total % 2:
+                return min(shortRight, longRight)
+            # even
+            return (max(shortLeft, longLeft) + min(shortRight, longRight)) / 2
+        elif shortLeft > longRight:
+            r = i - 1
+        else:
+            l = i + 1
+
+def findMedianSortedArraysNeet(nums1, nums2):
     A, B = nums1, nums2
     total = len(nums1) + len(nums2)
     half = total // 2

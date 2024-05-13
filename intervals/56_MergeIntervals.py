@@ -2,11 +2,11 @@
 def merge(intervals):
     intervals.sort()
     res = []
-    for i in range(len(intervals)):
-        if len(res) == 0 or res[-1][1] < intervals[i][0]:
-            res.append(intervals[i])
-        else:
-            res[-1] = ([min(res[-1][0], intervals[i][0]), max(res[-1][1], intervals[i][1])])
+    for start, end in intervals:
+        if res and res[-1][1] >= start:
+            prevStart, prevEnd = res.pop()
+            start, end = prevStart, max(end, prevEnd)
+        res.append([start, end])
     return res
 
 print(merge([[1,3],[2,6],[8,10],[15,18]]))

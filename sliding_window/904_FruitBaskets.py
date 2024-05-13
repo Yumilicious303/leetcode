@@ -1,4 +1,5 @@
 #Fruit Baskets
+from collections import defaultdict
 def totalFruit(fruits):
     fruitCounter = {}
     fruitCounterLength = 0
@@ -19,6 +20,26 @@ def totalFruit(fruits):
                 fruitCounterLength -= 1
             l += 1
         res = max(res, r - l + 1)
+    return res
+
+
+def totalFruit(fruits):
+    l, res, curTotal = 0, 0, 0
+    curBaskets = defaultdict(int)
+
+    for r in range(len(fruits)):
+        curBaskets[fruits[r]] += 1
+        curTotal += 1
+
+        while len(curBaskets) > 2:
+            f = fruits[l]
+            curBaskets[f] -= 1
+            curTotal -= 1
+            if curBaskets[f] == 0:
+                del curBaskets[f]
+            l += 1
+
+        res = max(curTotal, res)
     return res
 
 print(totalFruit([1,2,1]))

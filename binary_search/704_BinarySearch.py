@@ -1,4 +1,7 @@
-#Binary Search
+#Search a 2D Matrix
+#Each row is sorted in non-decreasing order.
+#The first integer of each row is greater than the last integer of the previous row.
+
 def search(nums, target):
     l, r = 0, len(nums) - 1
     while l <= r:
