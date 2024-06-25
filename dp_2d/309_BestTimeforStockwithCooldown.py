@@ -17,7 +17,7 @@ def maxProfit(prices):
     return dfs(0, 'no_stock')
 
 
-def maxProfit(prices):
+def maxProfitNeet(prices):
     # State: Buying or Selling?
     # If Buy -> i + 1
     # If Sell -> i + 2
@@ -27,6 +27,7 @@ def maxProfit(prices):
             return 0
         if (i, buying) in dp:
             return dp[(i, buying)]
+        
         cooldown = dfs(i + 1, buying)
         if buying:
             buy = dfs(i + 1, not buying) - prices[i]
@@ -35,6 +36,22 @@ def maxProfit(prices):
             sell = dfs(i + 2, not buying) + prices[i]
             dp[(i, buying)] = max(sell, cooldown)
         return dp[(i, buying)]
+    return dfs(0, True)
+
+
+def maxProfit(prices):
+    def dfs(i, buying):
+        if (i, buying) in memo:
+            return memo[(i, buying)]
+        if i >= len(prices):
+            return 0
+        
+        transaction = dfs(i + 1, False) - prices[i] if buying else dfs(i + 2, True) + prices[i]
+        cooldown = dfs(i + 1, buying)
+
+        memo[(i, buying)] = max(transaction, cooldown)
+        return memo[(i, buying)]
+    memo = {}
     return dfs(0, True)
             
 

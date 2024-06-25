@@ -34,7 +34,7 @@ def climbStairsII(n): #Each time you can either climb 1 or 2 or 3 steps.
 
 
 
-print(climbStairsII(5))
+print(climbStairs(38))
 
 
 

@@ -17,6 +17,7 @@ def myPowNeet(x, n):
 
     res = dfs(abs(n))
     return res if n >= 0 else 1 / res
-print(myPowNeet(2, -3))
-print(myPowNeet(2, 10))
-print(myPowNeet(2.1, 3))
+#print(myPowNeet(2, -3))
+#print(myPowNeet(2, 10))
+#print(myPowNeet(2.1, 3))
+print(myPowNeet(5, 0.5))

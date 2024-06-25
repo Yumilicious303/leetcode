@@ -40,6 +40,28 @@ def commentCombinationSum2(candidates, target):
         backtrack(0, [], 0)
         return res
 
+def combinationSum2ver2(candidates, target):
+    def backtrack(i, curSum):
+        if curSum == target:
+            res.append(cur[:])
+            return
+        if curSum > target or i >= len(candidates):
+            return
+        
+        cur.append(candidates[i])
+        backtrack(i + 1, curSum + candidates[i])
+        cur.pop()
+
+        while i + 1 < len(candidates) and candidates[i + 1] == candidates[i]:
+            i += 1
+        
+        backtrack(i + 1, curSum)
+
+    candidates.sort()
+    res, cur = [], []
+    backtrack(0, 0)
+    return res
+
 
 
 

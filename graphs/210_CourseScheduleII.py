@@ -1,4 +1,5 @@
 #Course Schedule
+from collections import deque
 def findOrder(numCourses, prerequisites):
     def dfs(course):
         if course in appended:
@@ -35,38 +36,70 @@ def findOrder(numCourses, prerequisites):
             return []
     return res
     
-
+def findOrder(self, numCourses: int, prerequisites: list[list[int]]) -> list[int]:
+    # Create a prerequisite dict. (containing courses (nodes) that need to be taken (visited)
+	# before we can visit the key.
+    prereq = {i: set() for i in range(numCourses)}
+	# Create a graph for adjacency and traversing.
+    next = {i: set() for i in range(numCourses)}
+    for course, pre in prerequisites:
+	    # Preqs store requirments as their given.
+        prereq[course].add(pre)
+		# next stores courses that pre is a prerequisite for
+        next[pre].add(course)
+    
+    q = deque()
+	# We need to find a starting location, aka courses that have no prereqs.
+    for course, pre in prereq.items():
+        if not pre: q.append(course)
+	# Keep track of which courses have been taken.
+    taken = []
+    while q:
+        course = q.popleft()
+        taken.append(course)
+		# If we have visited the numCourses we're done.
+        if len(taken) == numCourses:
+            return taken
+		# For neighboring courses.
+        for nextCourse in next[course]:
+		    # If the course we've just taken was a prereq for the next course, remove it from its prereqs.
+            prereq[nextCourse].remove(course)
+			# If we've taken all of the preqs for the new course, we'll visit it.
+            if not prereq[nextCourse]:
+                q.append(nextCourse)
+	# If we didn't hit numCourses in our search we know we can't take all of the courses.
+    return []
 
 def findOrderNeet(numCourses, prerequisites):
-    prereq = {c:[] for c in range(numCourses)}
-    for crs, pre in prerequisites:
-        prereq[crs].append(pre)
+    prereq = {i: [] for i in range(numCourses)}
+    for course, pre in prerequisites:
+        prereq[course].append(pre)
     
-    res = []
-    appended = set()
+    taken = []
+    taken_set = set()
     cycle = set()
         
-    def dfs(crs):
-        if crs in cycle:
+    def dfs(course):
+        if course in cycle:
             return False
-        if crs in appended:
+        if course in taken_set:
             return True
         
         
-        cycle.add(crs)
-        for p in prereq[crs]:
-            if dfs(p) is False:
-                return False
-        cycle.remove(crs)
-        res.append(crs)
-        appended.add(crs)
+        cycle.add(course)
+        for pre in prereq[course]:
+            if dfs(pre) is False: return False
+        
+        cycle.remove(course)
+        taken.append(course)
+        taken_set.add(course)
         return True
 
 
     for c in range(numCourses):
         if dfs(c) is False:
             return []
-    return res
+    return taken
 
 
     

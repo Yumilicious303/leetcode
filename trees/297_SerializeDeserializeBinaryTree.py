@@ -45,11 +45,11 @@ class CodecBFS:
         res = []
         queue = deque([root])
         while queue:
-            node = queue.pop()
+            node = queue.popleft()
             if node:
                 res.append(str(node.val))
-                queue.appendleft(node.left)
-                queue.appendleft(node.right)
+                queue.append(node.left)
+                queue.append(node.right)
             else:
                 # you can use any char to represent null
                 # empty string means test for a non-null node is simply: flat_bt[i]
@@ -67,14 +67,14 @@ class CodecBFS:
         i = 1
         # when you pop a node, its children will be at i and i+1
         while queue:
-            node = queue.pop()
+            node = queue.popleft()
             if i < len(values) and values[i] != 'N':
                 node.left = TreeNode(int(values[i]))
-                queue.appendleft(node.left)
+                queue.append(node.left)
             i += 1
             if i < len(values) and values[i] != 'N':
                 node.right = TreeNode(int(values[i]))
-                queue.appendleft(node.right)
+                queue.append(node.right)
             i += 1
         return res
     # time:  O(n)
